@@ -48,6 +48,13 @@ modules.exports = {
   find: ƒ.ƒ(some.db.find)
 }
 ```
+Oops... It needs the `db` context:
+```javascript
+var ƒ = require('effd');
+modules.exports = {
+  find: ƒ.ƒ(some.db, 'find')
+}
+```
 👍
 
 ## FYI
