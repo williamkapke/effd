@@ -1,0 +1,23 @@
+{
+  "name": "effd",
+  "version": "1.0.0",
+  "description": "ƒ them Promise()s!",
+  "main": "ƒ.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/williamkapke/effd.git"
+  },
+  "keywords": [
+    "Promise",
+    "Promisify"
+  ],
+  "author": "William Kapke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/williamkapke/effd/issues"
+  },
+  "homepage": "https://github.com/williamkapke/effd"
+}
