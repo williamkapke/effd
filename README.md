@@ -1,5 +1,6 @@
 ƒ
 =
+Very simple tools for working with [ES6 Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
 This wonderful new world of [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 now means I have **2** arguments to deal with _(`reject`, `resolve`)_ instead of just `callback` that we had all these years:
@@ -30,10 +31,17 @@ modules.exports = {
   }
 }
 ```
+Hmm. Converting the _callback style_ is still ugly!
+```javascript
+var ƒ = require('effd');
+modules.exports = {
+  find: id=>{
+    return ƒ(Ø=> some.db.find(id, Ø));
+  }
+}
+```
 
-Gaaahh! Still not good enough. Converting the _callback_style_ is still ugly!
-
-How about this instead...
+Better, but... Gaaahh! This is really just a proxy. Lets just Promisify it...
 ```javascript
 var ƒ = require('effd');
 modules.exports = {

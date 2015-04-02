@@ -1,6 +1,6 @@
 {
   "name": "effd",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "ƒ them Promise()s!",
   "main": "ƒ.js",
   "scripts": {
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/williamkapke/effd/issues"
   },
-  "homepage": "https://github.com/williamkapke/effd"
+  "homepage": "https://github.com/williamkapke/effd",
+  "devDependencies": {
+    "should": "^5.2.0"
+  }
 }
