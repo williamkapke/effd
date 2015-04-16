@@ -50,5 +50,68 @@ describe('Promisify', function () {
       done()
     });
   });
+  it('should return a resolved Promise if the argument is not a function and not an Error', function (done) {
+    ƒ(99)
+      .then(x=>{
+        x.should.equal(99);
+
+        ƒ()
+          .then(x=>{
+            should.not.exist(x);
+            done();
+          })
+          .catch(done);
+      })
+      .catch(done);
+  });
+  it('should return a resolved Promise if the callback returns something that isn\'t an Error', function (done) {
+    ƒ(Ø=>99)
+      .then(x=>{
+        x.should.equal(99);
+        done();
+      })
+      .catch(done);
+  });
+
+  it('should return a rejected Promise if the callback returns an Error', function (done) {
+    ƒ(Ø=>Error('you are a reject'))
+      .then(x=>{
+        done(Error('then should not be called'));
+      },
+      err=>{
+        err.message.should.equal('you are a reject');
+        done();
+      })
+      .catch(done);
+  });
+  it('should return a rejected Promise if the argument is an Error', function (done) {
+    ƒ(Error('you are a reject'))
+      .then(x=>{
+        done(Error('then should not be called'));
+      },
+      err=>{
+        err.message.should.equal('you are a reject');
+        done();
+      })
+      .catch(done);
+  });
+
+  it('should have aliases for Promise.resolve', function (done) {
+    ƒ.done.should.equal(ƒ.ok);
+    ƒ.done.should.equal(ƒ.ok);
+    ƒ.resolve.should.equal(ƒ.ok);
+    ƒ.accept.should.equal(ƒ.ok);
+    ƒ.noop.should.equal(ƒ.ok);
+    ƒ.echo.should.equal(ƒ.ok);
+    ƒ.ok().then(done).catch(done);
+  });
+
+  it('should have aliases for Promise.resolve', function (done) {
+    ƒ.error.should.equal(ƒ.no);
+    ƒ.reject.should.equal(ƒ.no);
+    ƒ.fail.should.equal(ƒ.no);
+    ƒ.no().then(x=>done(Error('then should not be called'))).catch(x=>done());
+  });
+
 });
 
