@@ -3,6 +3,11 @@
 
 **This is NOT Promise library.** This a a small module that makes working with [ES6 Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) a bit easier and/or more semantic.
 
+**FYI:**<br>
+The `ƒ` character is `ALT+f` on the Mac.<br>
+The `Ø` character is `ALT+SHIFT+o` on the Mac.
+
+
 ### Here's an example...
 This wonderful new world of [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 now means I have **2** arguments to deal with _(`reject`, `resolve`)_ instead of just `callback` that we had all these years:
@@ -75,7 +80,7 @@ Aliases to `reject` the promise.
 A getter that returns a resolved Promise.
 
 `ƒ.catch` also returns a **resolved** Promise- therefor its callback will never get called. Its only purpose is to provide a consistent interface.
-```javacsript
+```javascript
 var promise = ƒ;
 promise.catch(()=>'never called').then(()=>'but this is!').then(console.log);
 promise.then(()=>'eureka!',()=>'never called').then(console.log);
@@ -96,13 +101,13 @@ Turns a function that isn't async into a resolved promise. Since [lambdas](https
 ```javascript
 var log = ƒ.passthrough(console.log);
 var wait = seconds=> ƒ(Ø=>{
-    setTimeout(Ø.done, seconds*1000)
+  setTimeout(Ø.done, seconds*1000)
 });
 
 var doit = ()=>
-    log('start')
-        .then(()=>wait(1))
-        .then(log('end'));
+  log('start')
+    .then(()=>wait(1))
+    .then(log('end'));
 
 doit();
 ```
@@ -111,19 +116,14 @@ Here's another example:
 ```javascript
 var debug = ƒ.passthrough(console.log);
 module.exports = {
-    find: id =>
-        debug('finding: %s', id)
-          .then(()=>db.find({_id:id}))
-          //use a lambda to get access to the value being passedthrough!
-          .then(debug('found: %s %s',id,u=>u.name))
+  find: id =>
+    debug('finding: %s', id)
+      .then(()=>db.find({_id:id}))
+      //use a lambda to get access to the value being passedthrough!
+      .then(debug('found: %s %s',id,u=>u.name))
 };
 ```
 In this example, the `debug` passthrough is used in 2 ways. The first, creates a resolved Promise that is thenable. There isn't a value to passthrough, so there isn't a value to pass to the first `then()`. The second is passed the `user` object returned from the database
-
-## FYI
-The `ƒ` character is `ALT+f` on the Mac.
-
-The `Ø` character is `ALT+SHIFT+o` on the Mac.
 
 
 license
