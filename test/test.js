@@ -14,7 +14,7 @@ FileReader.prototype.async_thing = function (hasError, callback) {
   async_thing(hasError, this.id, callback);
 };
 
-describe('Promisify', function () {
+describe('ƒ', function () {
   var x1 = ƒ.ƒ(async_thing);
   var reader = new FileReader();
   var x2 = ƒ.ƒ(reader, 'async_thing');
@@ -112,6 +112,23 @@ describe('Promisify', function () {
     ƒ.fail.should.equal(ƒ.no);
     ƒ.no().then(x=>done(Error('then should not be called'))).catch(x=>done());
   });
+
+  it('should support passthrough functions', function (done) {
+    function Logger() {
+      this.lines = [];
+      this.log = this.lines.push.bind(this.lines);
+    }
+
+    var logger = new Logger();
+    var log = ƒ.passthrough(logger,'log');
+    log('yippie')
+      .then(Ø=>{
+        logger.lines.should.eql(['yippie']);
+        done();
+      })
+      .catch(done);
+  });
+
 
 });
 
