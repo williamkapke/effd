@@ -34,9 +34,14 @@ var map = Array.prototype.map;
 };
 
 //converts callback(err, value) to Promise style
-ƒ.ƒ = (fn, prop)=>{
+ƒ.ƒ = (fn, prop1, prop2)=>{
   var ctx = fn;
-  if(typeof prop==='string') fn = fn[prop];
+  if(typeof prop1==='undefined' && typeof fn==='object') prop1 = Object.keys(fn);
+  if(Array.isArray(prop1) || (typeof prop1==='string' && typeof prop2==='string'))
+    return promisify_all(fn, Array.isArray(prop1)? prop1 : Array.prototype.slice.call(arguments, 1));
+
+  if(typeof prop1==='string') fn = fn[prop1];
+
   return ()=> {
     var args=arguments;
     return ƒ(Ø=> {
@@ -45,6 +50,14 @@ var map = Array.prototype.map;
     });
   };
 };
+function promisify_all(obj, keys) {
+  var out = {};
+  keys.forEach(key=>{
+    if(typeof obj[key] === 'function')
+      out[key] = ƒ.ƒ(obj, key);
+  });
+  return out;
+}
 
 ƒ.done = ƒ.resolve = ƒ.accept = ƒ.ok = ƒ.noop = ƒ.echo = Promise.resolve.bind(Promise);
 ƒ.error = ƒ.reject = ƒ.fail = ƒ.no = Promise.reject.bind(Promise);
