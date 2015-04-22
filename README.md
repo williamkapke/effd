@@ -92,6 +92,11 @@ Aliases for `Promise.resolve()`. Use whichever _reads_ the best to you!
 #### ƒ.[reject](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject) = ƒ.error = ƒ.fail = ƒ.no
 Aliases for `Promise.reject()`. Use whichever _reads_ the best to you!
 
+*ƒ.error* is special! It will create an instance of an Error if it isn't given one.
+```javascript
+ƒ.error('Booo!').catch(err=>console.log(err instanceof Error));//true
+```
+
 #### ƒ.[all](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) & ƒ.[race](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
 Yeah... those are there too.
 

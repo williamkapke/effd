@@ -60,7 +60,8 @@ function promisify_all(obj, keys) {
 }
 
 ƒ.done = ƒ.resolve = ƒ.accept = ƒ.ok = ƒ.noop = ƒ.echo = Promise.resolve.bind(Promise);
-ƒ.error = ƒ.reject = ƒ.fail = ƒ.no = Promise.reject.bind(Promise);
+ƒ.reject = ƒ.fail = ƒ.no = Promise.reject.bind(Promise);
+ƒ.error = (err)=>ƒ.reject(!(err instanceof Error)? Error(err) : err);
 ƒ.all = Promise.all.bind(Promise);
 ƒ.race = Promise.race.bind(Promise);
 

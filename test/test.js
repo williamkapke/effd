@@ -106,11 +106,29 @@ describe('ƒ', function () {
     ƒ.ok().then(done).catch(done);
   });
 
-  it('should have aliases for Promise.resolve', function (done) {
-    ƒ.error.should.equal(ƒ.no);
+  it('should have aliases for Promise.reject', function (done) {
     ƒ.reject.should.equal(ƒ.no);
     ƒ.fail.should.equal(ƒ.no);
     ƒ.no().then(x=>done(Error('then should not be called'))).catch(x=>done());
+  });
+
+  it('should make Error instances with Promise.error', function (done) {
+    ƒ.all([
+      ƒ.error('make me an error')
+        .then(x=>done(Error('then should not be called')))
+        .catch(x=>{
+          x.should.be.an.instanceOf(Error);
+          x.should.have.property('message', 'make me an error');
+        }),
+      ƒ.error(Error('I am an error'))
+        .then(x=>done(Error('then should not be called')))
+        .catch(x=>{
+          x.should.be.an.instanceOf(Error);
+          x.should.have.property('message', 'I am an error');
+        })
+      ])
+    .then(x=>done())
+    .catch(done);
   });
 
   it('should support passthrough functions', function (done) {
