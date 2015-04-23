@@ -3,7 +3,9 @@
   "version": "1.4.1",
   "description": "ƒ them Promise()s!",
   "main": "ƒ.js",
-  "engines" : { "node" : ">=0.12" },
+  "engines": {
+    "node": ">=0.12"
+  },
   "scripts": {
     "test": "mocha --harmony_arrow_functions"
   },
@@ -22,6 +24,7 @@
   },
   "homepage": "https://github.com/williamkapke/effd",
   "devDependencies": {
+    "mocha": "^2.2.4",
     "should": "^5.2.0"
   }
 }
