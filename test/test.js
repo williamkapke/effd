@@ -147,6 +147,33 @@ describe('ƒ', function () {
       .catch(done);
   });
 
+  it('should allow passthrough functions to inject a thenable', function (done) {
+
+    var match = ƒ.passthrough((value1, value2)=>
+        value1!==value2?
+          ƒ.error("I don't like it") ://return a thenable to interrupt the pipeline
+          "I'll work with it"
+    );
+
+    //first try it with a successful match
+    ƒ(Ø=>Ø.done('happy'))
+      .then(match('happy', v=>v))
+      .then(result=>result.should.equal('happy'))
+      .then(_=>{
+
+        //now with a non-match
+        ƒ(Ø=>Ø.done('sad'))
+          .then(match('happy', v=>v))
+          .then(x=>done(Error('then should not be called')))
+          .catch(err=>{
+            should.exist(err);
+            err.should.have.property("message", "I don't like it");
+            done();
+          });
+      })
+      .catch(done);
+  });
+
 
 });
 

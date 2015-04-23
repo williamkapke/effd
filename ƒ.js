@@ -26,8 +26,8 @@ var map = Array.prototype.map;
   var promise;
   var cb = v=> promise || (promise = ƒ(Ø=>{
     args = map.call(args, a=> typeof a==='function'? a(v) : a);
-    fn.apply(fn,args);
-    Ø.ok(v)
+    var result = fn.apply(fn,args);
+    Ø.ok(result && result.then? result : v)
   }));
   Object.defineProperty(cb, 'then', { get:()=>cb().then.bind(promise) });
   return cb;
