@@ -1,4 +1,4 @@
-ƒ
+ƒ &nbsp;&nbsp;[![Circle CI](https://circleci.com/gh/williamkapke/effd.svg?style=svg)](https://circleci.com/gh/williamkapke/effd)
 ==
 
 **This is NOT Promise library.** This a a small module that makes working with [ES6 Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) a bit easier and/or more semantic.
