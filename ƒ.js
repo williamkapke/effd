@@ -1,9 +1,25 @@
 
-const ƒ = cb=> instant(cb) || new Promise(converter(cb));
+const ƒ = (arg1,arg2)=> filter(arg1,arg2) || instant(arg1) || new Promise(converter(arg1));
 
 function instant(val) {
   if(typeof val === 'function') return false;
   return val instanceof Error? Promise.reject(val) : Promise.resolve(val)
+}
+function filter(property, fn) {
+  if(typeof fn !== 'function' || typeof property !== 'string') return false;
+
+  return data=>{
+    if(!data || !data[property])
+      return data;
+
+    function set_value(result){
+      data[property] = result;
+      return data;
+    }
+
+    var result = fn(data[property]);
+    return result.then? result.then(set_value) : set_value(result);
+  }
 }
 function converter(cb) {
   return (ok,no)=>{
@@ -18,6 +34,7 @@ function converter(cb) {
   }
 }
 ƒ.converter = converter;
+ƒ.filter = filter;
 
 var map = Array.prototype.map;
 ƒ.passthrough = (fn,prop)=>()=>{

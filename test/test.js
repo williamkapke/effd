@@ -187,5 +187,57 @@ describe('ƒ', function () {
 
   });
 
+  describe('filters', function () {
+    it('should filter data', function (done) {
+      ƒ({foo:111})
+        .then(ƒ('foo', (foo)=>999))
+        .then(data=>{
+          data.foo.should.equal(999);
+
+
+          var asyncish = n=>ƒ(Ø=>{
+            setTimeout(_=>Ø.done(n),10);
+          });
+
+          return ƒ({foo:111})
+            .then(ƒ('foo', (foo)=>{
+              return asyncish(999)
+            }))
+            .then(data=>{
+              data.foo.should.equal(999);
+              done();
+            })
+
+        })
+        .catch(done);
+    });
+
+    it('should ignore the property if it doesn\'t exist in the source', function (done) {
+      var source = {bar:111};
+      ƒ(source)
+        .then(ƒ('foo', (foo)=>999))
+        .then(result=>{
+          result.should.equal(source);
+
+          var asyncish = n=>ƒ(Ø=>{
+            setTimeout(_=>Ø.done(n),10);
+          });
+
+          return ƒ(source)
+            .then(ƒ('foo', (foo)=>{
+              return asyncish(999)
+            }))
+            .then(result=>{
+              result.should.equal(source);
+              done();
+            })
+
+        })
+        .catch(done);
+    });
+
+  });
+
+
 });
 

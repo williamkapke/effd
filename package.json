@@ -1,6 +1,6 @@
 {
   "name": "effd",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "ƒ them Promise()s!",
   "main": "ƒ.js",
   "engines": {

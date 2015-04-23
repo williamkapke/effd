@@ -64,6 +64,7 @@ modules.exports = {
 ```
 👍
 
+<a href='Ø'></a>
 #### About that `Ø` argument...
 It's a Swiss Army knife argument. As mentioned above, it is a [lambda](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) that converts [error first callback style](http://thenodeway.io/posts/understanding-error-first-callbacks) to Promise's `(resolve,reject)` style.
 
@@ -73,14 +74,27 @@ Aliases to `resolve` the promise.
 ##### Ø.reject = Ø.error = Ø.fail = Ø.no
 Aliases to `reject` the promise.
 
-*Ø.error* is special! It will create an instance of an Error if it isn't given one.
+**Ø.error** is special! It will create an instance of an Error if it isn't given one.
 ```javascript
 ƒ(Ø=>Ø.error('Booo!')).catch(err=>console.log(err instanceof Error));//true
 ```
 
 
 
-##Some other goodies
+##API
+#### ƒ(function)
+Creates a promise. Similar to `new Promise((resolve,reject)=>{})`
+
+The callback `function` will be passed 1 argument. See: [About that `Ø` argument](#Ø) above for more details.
+
+#### ƒ(value|Error)
+Returns a rejected `Promise` if it is an instance of `Error`, otherwise a resolved `Promise`.
+
+Similar to doing `Promise.resolve(value)` or `Promise.reject(Error)`.
+
+#### ƒ(property, function)
+Shortcut for [ƒ.filter](#ƒ.filter).
+
 #### ƒ.[then](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) & ƒ.[catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch)
 A getter that returns a resolved Promise.
 
@@ -97,13 +111,36 @@ Aliases for `Promise.resolve()`. Use whichever _reads_ the best to you!
 #### ƒ.[reject](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject) = ƒ.error = ƒ.fail = ƒ.no
 Aliases for `Promise.reject()`. Use whichever _reads_ the best to you!
 
-*ƒ.error* is special! It will create an instance of an Error if it isn't given one.
+**ƒ.error** is special! It will create an instance of an Error if it isn't given one.
 ```javascript
 ƒ.error('Booo!').catch(err=>console.log(err instanceof Error));//true
 ```
 
 #### ƒ.[all](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) & ƒ.[race](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
 Yeah... those are there too.
+
+<a href="ƒ.filter"></a>
+#### ƒ.filter(property, modifier)
+Creates a `then` filter (a function that can be passed to a `.then()` function) that will modify a property of the
+object it is given. After modifying the source object, it will return it to the `.then()` function. If the modifier
+returns a thenable, it will return that promise to `.then()`.
+
+**property** • The property to modify.
+**modifier** • A function that takes in the original value and returns the new value or a thenable for async operations.
+
+```javascript
+//sync
+users.findOne({name:'Tony'})
+  .then(ƒ('password', p=>'hidden'))
+  .then(console.log);
+
+//async
+var save = (user)=>
+  ƒ(user)//start a chain
+  .then(ƒ('password', pass=>promisified_bcrypt.hash(pass))
+  .then(db.users.save);
+```
+
 
 #### ƒ.passthrough(function) / ƒ.passthrough(context, name)
 Turns a function that isn't async into a resolved promise. Since [lambdas](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) allow us to drop the `{}`s and `return` statement if everything is chained, you can use this to help simplify your code.
