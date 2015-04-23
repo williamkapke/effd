@@ -73,6 +73,11 @@ Aliases to `resolve` the promise.
 ##### Ø.reject = Ø.error = Ø.fail = Ø.no
 Aliases to `reject` the promise.
 
+*Ø.error* is special! It will create an instance of an Error if it isn't given one.
+```javascript
+ƒ(Ø=>Ø.error('Booo!')).catch(err=>console.log(err instanceof Error));//true
+```
+
 
 
 ##Some other goodies

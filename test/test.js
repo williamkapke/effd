@@ -131,49 +131,61 @@ describe('ƒ', function () {
     .catch(done);
   });
 
-  it('should support passthrough functions', function (done) {
-    function Logger() {
-      this.lines = [];
-      this.log = this.lines.push.bind(this.lines);
-    }
+  describe('passthrough functions', function () {
 
-    var logger = new Logger();
-    var log = ƒ.passthrough(logger,'log');
-    log('yippie')
-      .then(Ø=>{
-        logger.lines.should.eql(['yippie']);
-        done();
+    it('should allow values to pass through', function (done) {
+      function Logger() {
+        this.lines = [];
+        this.log = this.lines.push.bind(this.lines);
+      }
+
+      var logger = new Logger();
+      var log = ƒ.passthrough(logger,'log');
+      log('yippie')
+        .then(Ø=>{
+          logger.lines.should.eql(['yippie']);
+          done();
+        })
+        .catch(done);
+    });
+
+    var match = ƒ.passthrough((value1, value2)=> ƒ(Ø=>{
+        setTimeout(_=>{
+          //return a rejected thenable to interrupt the pipeline
+          if(value1!==value2)
+            Ø.error("I don't like it");
+          else Ø.done("I'll work with it");//this will always be ignored
+        }, 10);
       })
-      .catch(done);
-  });
-
-  it('should allow passthrough functions to inject a thenable', function (done) {
-
-    var match = ƒ.passthrough((value1, value2)=>
-        value1!==value2?
-          ƒ.error("I don't like it") ://return a thenable to interrupt the pipeline
-          "I'll work with it"
     );
 
-    //first try it with a successful match
-    ƒ(Ø=>Ø.done('happy'))
-      .then(match('happy', v=>v))
-      .then(result=>result.should.equal('happy'))
-      .then(_=>{
+    it('should allow it to inject a thenable', function (done) {
 
-        //now with a non-match
-        ƒ(Ø=>Ø.done('sad'))
-          .then(match('happy', v=>v))
-          .then(x=>done(Error('then should not be called')))
-          .catch(err=>{
-            should.exist(err);
-            err.should.have.property("message", "I don't like it");
-            done();
-          });
-      })
-      .catch(done);
+      //first try it with a successful match
+      ƒ.done('happy')
+        .then(match('happy', v=>v))
+        .then(result=>{
+          result.should.equal('happy');
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should only allow a rejected Promise to interrupt', function (done) {
+
+      //now with a non-match
+      ƒ.done('sad')
+        .then(match('happy', v=>v))
+        .then(x=>done(Error('then should not be called')))
+        .catch(err=>{
+          should.exist(err);
+          err.should.have.property("message", "I don't like it");
+          done();
+        });
+
+    });
+
   });
-
 
 });
 

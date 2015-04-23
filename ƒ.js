@@ -11,7 +11,8 @@ function converter(cb) {
     var Ø = (err, result)=> err ? no(err) : ok(result);
     //choose your flavor
     Ø.done = Ø.resolve = Ø.accept = Ø.ok = ok;
-    Ø.error = Ø.reject = Ø.fail = Ø.no = no;
+    Ø.reject = Ø.fail = Ø.no = no;
+    Ø.error = (err)=>no(err instanceof Error? err : Error(err));
     var ret = cb(Ø);
     if(ret!==undefined) ret instanceof Error? no(ret) : ok(ret);
   }
@@ -26,7 +27,9 @@ var map = Array.prototype.map;
   var cb = v=> promise || (promise = ƒ(Ø=>{
     args = map.call(args, a=> typeof a==='function'? a(v) : a);
     var result = fn.apply(fn,args);
-    Ø.ok(result && result.then? result : v)
+    if(result && result.then)
+      result.then(_=>Ø.ok(v)).catch(Ø.error);
+    else Ø.ok(v);
   }));
   Object.defineProperty(cb, 'then', { get:()=>cb().then.bind(promise) });
   return cb;
@@ -60,7 +63,7 @@ function promisify_all(obj, keys) {
 
 ƒ.done = ƒ.resolve = ƒ.accept = ƒ.ok = ƒ.noop = ƒ.echo = Promise.resolve.bind(Promise);
 ƒ.reject = ƒ.fail = ƒ.no = Promise.reject.bind(Promise);
-ƒ.error = (err)=>ƒ.reject(!(err instanceof Error)? Error(err) : err);
+ƒ.error = (err)=>ƒ.reject(err instanceof Error? err : Error(err));
 ƒ.all = Promise.all.bind(Promise);
 ƒ.race = Promise.race.bind(Promise);
 
