@@ -64,7 +64,7 @@ modules.exports = {
 ```
 👍
 
-<a href='Ø'></a>
+<a id='Ø'></a>
 #### About that `Ø` argument...
 It's a Swiss Army knife argument. As mentioned above, it is a [lambda](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) that converts [error first callback style](http://thenodeway.io/posts/understanding-error-first-callbacks) to Promise's `(resolve,reject)` style.
 
@@ -92,7 +92,7 @@ Returns a rejected `Promise` if it is an instance of `Error`, otherwise a resolv
 
 Similar to doing `Promise.resolve(value)` or `Promise.reject(Error)`.
 
-#### ƒ(property, function)
+#### ƒ(property, modifier)
 Shortcut for [ƒ.filter](#ƒ.filter).
 
 #### ƒ.[then](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) & ƒ.[catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch)
@@ -119,13 +119,13 @@ Aliases for `Promise.reject()`. Use whichever _reads_ the best to you!
 #### ƒ.[all](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) & ƒ.[race](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
 Yeah... those are there too.
 
-<a href="ƒ.filter"></a>
+<a id="ƒ.filter"></a>
 #### ƒ.filter(property, modifier)
 Creates a `then` filter (a function that can be passed to a `.then()` function) that will modify a property of the
 object it is given. After modifying the source object, it will return it to the `.then()` function. If the modifier
 returns a thenable, it will return that promise to `.then()`.
 
-**property** • The property to modify.
+**property** • The property to modify.<br>
 **modifier** • A function that takes in the original value and returns the new value or a thenable for async operations.
 
 ```javascript
