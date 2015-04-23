@@ -1,4 +1,3 @@
-`requires es6`;
 
 const ƒ = cb=> instant(cb) || new Promise(converter(cb));
 
