@@ -37,7 +37,7 @@ function converter(cb) {
 ƒ.filter = filter;
 
 var map = Array.prototype.map;
-ƒ.passthrough = (fn,prop)=>()=>{
+ƒ.passthrough = (fn,prop)=>function(){
   if(typeof prop==='string') fn = fn[prop];
   var args = arguments;
   var promise;
@@ -53,7 +53,7 @@ var map = Array.prototype.map;
 };
 
 //converts callback(err, value) to Promise style
-ƒ.ƒ = (fn, prop1, prop2)=>{
+ƒ.ƒ = function(fn, prop1, prop2) {
   var ctx = fn;
   if(typeof prop1==='undefined' && typeof fn==='object') prop1 = Object.keys(fn);
   if(Array.isArray(prop1) || (typeof prop1==='string' && typeof prop2==='string'))
@@ -61,7 +61,7 @@ var map = Array.prototype.map;
 
   if(typeof prop1==='string') fn = fn[prop1];
 
-  return ()=> {
+  return function() {
     var args=arguments;
     return ƒ(Ø=> {
       Array.prototype.push.call(args, Ø);
