@@ -13,6 +13,9 @@ function FileReader() {
 FileReader.prototype.async_thing = function (hasError, callback) {
   async_thing(hasError, this.id, callback);
 };
+var asyncish = n=>ƒ(Ø=>{
+  setTimeout(_=>Ø.done(n),10);
+});
 
 describe('ƒ', function () {
   var x1 = ƒ.ƒ(async_thing);
@@ -195,10 +198,6 @@ describe('ƒ', function () {
           data.foo.should.equal(999);
 
 
-          var asyncish = n=>ƒ(Ø=>{
-            setTimeout(_=>Ø.done(n),10);
-          });
-
           return ƒ({foo:111})
             .then(ƒ('foo', (foo)=>{
               return asyncish(999)
@@ -238,6 +237,51 @@ describe('ƒ', function () {
 
   });
 
+  describe('ƒ.all', function () {
+
+    it('should accept an array', function (done) {
+      ƒ.all([
+        asyncish(111),
+        asyncish(222),
+        asyncish(333)
+      ])
+      .then(function (results) {
+        results.should.be.an.array;
+        results.should.deepEqual([111,222,333]);
+        done();
+      })
+      .catch(done);
+    });
+
+    it('should accept params', function (done) {
+      ƒ.all(
+        asyncish(111),
+        asyncish(222),
+        asyncish(333)
+      )
+      .then(function (results) {
+        results.should.be.an.array;
+        results.should.deepEqual([111,222,333]);
+        done();
+      })
+      .catch(done);
+    });
+
+    it('should accept an object', function (done) {
+      ƒ.all({
+        task1:asyncish(111),
+        task2:asyncish(222),
+        task3:asyncish(333)
+      })
+      .then(function (results) {
+        results.should.not.be.an.array;
+        results.should.deepEqual({task1:111, task2:222, task3:333 });
+        done();
+      })
+      .catch(done);
+    });
+
+  })
 
 });
 

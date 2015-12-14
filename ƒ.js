@@ -81,10 +81,27 @@ function promisify_all(obj, keys) {
 ƒ.done = ƒ.resolve = ƒ.accept = ƒ.ok = ƒ.noop = ƒ.echo = Promise.resolve.bind(Promise);
 ƒ.reject = ƒ.fail = ƒ.no = Promise.reject.bind(Promise);
 ƒ.error = (err)=>ƒ.reject(err instanceof Error? err : Error(err));
-ƒ.all = Promise.all.bind(Promise);
 ƒ.race = Promise.race.bind(Promise);
+ƒ.all = function(arg1) {
+  if(arguments.length>1) return Promise.all(Array.prototype.slice.call(arguments));
 
-Object.defineProperty(ƒ, 'then', { get:()=>Promise.prototype.then.bind(ƒ()) })
-Object.defineProperty(ƒ, 'catch', { get:()=>Promise.prototype.catch.bind(ƒ()) })
+  //support { task1:promise1, task2:promise2, ...}
+  if(!Array.isArray(arg1) && typeof arg1==='object') {
+    return all_obj(arg1);
+  }
+
+  return Promise.all(arg1);
+};
+
+function all_obj(obj) {
+  var keys = Object.keys(obj);
+  return Promise.all(keys.map(function(key) { return obj[key] }))
+    .then(function(results){
+      return results.reduce(function(out, result, i) { return (out[keys[i]] = result) && out; }, {});
+    });
+}
+
+Object.defineProperty(ƒ, 'then', { get:()=>Promise.prototype.then.bind(ƒ()) });
+Object.defineProperty(ƒ, 'catch', { get:()=>Promise.prototype.catch.bind(ƒ()) });
 
 module.exports = ƒ;
