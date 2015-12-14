@@ -81,7 +81,8 @@ Aliases to `reject` the promise.
 
 
 
-##API
+## API
+
 #### ƒ(function)
 Creates a promise. Similar to `new Promise((resolve,reject)=>{})`
 
@@ -116,8 +117,19 @@ Aliases for `Promise.reject()`. Use whichever _reads_ the best to you!
 ƒ.error('Booo!').catch(err=>console.log(err instanceof Error));//true
 ```
 
-#### ƒ.[all](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) & ƒ.[race](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
-Yeah... those are there too.
+<a id="ƒ.race"></a>
+#### ƒ.[race(Array)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
+Alias of [Promise.race](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race).
+
+<a id="ƒ.all"></a>
+#### ƒ.[all(Array)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
+Alias of [Promise.all](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all).
+
+#### ƒ.all(...args)
+Converts the `arguments` to an array and then uses [Promise.all(Array)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
+
+#### ƒ.all(Object)
+Passes the values of the `Object` to  [Promise.all(Array)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) then maps the results to an `Object` matching the keys of the original `Object`.
 
 <a id="ƒ.filter"></a>
 #### ƒ.filter(property, modifier)
