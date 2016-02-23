@@ -53,7 +53,7 @@ var map = Array.prototype.map;
 };
 
 //converts callback(err, value) to Promise style
-ƒ.ƒ = function(fn, prop1, prop2) {
+ƒ.promisify = ƒ.ƒ = function(fn, prop1, prop2) {
   var ctx = fn;
   if(typeof prop1==='undefined' && typeof fn==='object') prop1 = Object.keys(fn);
   if(Array.isArray(prop1) || (typeof prop1==='string' && typeof prop2==='string'))

@@ -7,62 +7,28 @@
 The `ƒ` character is `ALT+f` on the Mac.<br>
 The `Ø` character is `ALT+SHIFT+o` on the Mac.
 
-
-### Here's an example...
-This wonderful new world of [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-now means I have **2** arguments to deal with _(`reject`, `resolve`)_ instead of just `callback` that we had all these years:
-```javascript
-modules.exports = {
-  find: id=>{
-    return new Promise((reject, resolve)=>{
-      some.db.find(id, (err, result)=>{
-        if(err) reject(err);
-        else resolve(result);
-      });
-    });
-  }
-}
+```bash
+npm install effd
 ```
 
-Well, ƒ all those extra characters crowding things!!
 ```javascript
 var ƒ = require('effd');
-modules.exports = {
-  find: id=>{
-    return ƒ(Ø=>{
-      some.db.find(id, (err, result)=>{
-        if(err) Ø.error(err);
-        else Ø.done(result);
-      });
-    });
-  }
-}
-```
-Hmm… converting that _callback style_ is still pretty ugly! That `Ø` argument is a converter too! Check it out...
-```javascript
-var ƒ = require('effd');
-modules.exports = {
-  find: id=>{
-    return ƒ(Ø=> some.db.find(id, Ø));
-  }
-}
+var fs = ƒ.promisify(require('fs'), 'readFile','stat');
+
+fs.stat('./package.json')
+.then(console.log);
+
+fs.readFile('./package.json')
+.then(String)
+.then(console.log);
 ```
 
-Better, but... Gaaahh! This is really just a proxy to `db.find`. Lets just Promisify it...
-```javascript
-var ƒ = require('effd');
-modules.exports = {
-  find: ƒ.ƒ(some.db.find)
-}
-```
-Oops... Doing it like that screws up its scope. We need to pass in the `db` context and then function name to fix it:
-```javascript
-var ƒ = require('effd');
-modules.exports = {
-  find: ƒ.ƒ(some.db, 'find')
-}
-```
-👍
+## API
+
+#### ƒ(function)
+Creates a promise. Similar to `new Promise((resolve,reject)=>{})`
+
+The callback `function` will be passed 1 argument... `Ø`
 
 <a id='Ø'></a>
 #### About that `Ø` argument...
@@ -79,14 +45,6 @@ Aliases to `reject` the promise.
 ƒ(Ø=>Ø.error('Booo!')).catch(err=>console.log(err instanceof Error));//true
 ```
 
-
-
-## API
-
-#### ƒ(function)
-Creates a promise. Similar to `new Promise((resolve,reject)=>{})`
-
-The callback `function` will be passed 1 argument. See: [About that `Ø` argument](#Ø) above for more details.
 
 #### ƒ(value|Error)
 Returns a rejected `Promise` if it is an instance of `Error`, otherwise a resolved `Promise`.
@@ -183,6 +141,63 @@ module.exports = {
 };
 ```
 In this example, the `debug` passthrough is used in 2 ways. The first, creates a resolved Promise that is thenable. There isn't a value to passthrough, so there isn't a value to pass to the first `then()`. The second is passed the `user` object returned from the database
+
+### Here's an example...
+
+```javascript
+modules.exports = {
+  find: id=>{
+    return new Promise((reject, resolve)=>{
+      some.db.find(id, (err, result)=>{
+        if(err) reject(err);
+        else resolve(result);
+      });
+    });
+  }
+}
+```
+
+Well, ƒ all those extra characters crowding things!!
+```javascript
+var ƒ = require('effd');
+modules.exports = {
+  find: id=>{
+    return ƒ(Ø=>{
+      some.db.find(id, (err, result)=>{
+        if(err) Ø.error(err);
+        else Ø.done(result);
+      });
+    });
+  }
+}
+```
+Hmm… converting that _callback style_ is still pretty ugly! That `Ø` argument is a converter too! Check it out...
+```javascript
+var ƒ = require('effd');
+modules.exports = {
+  find: id=>{
+    return ƒ(Ø=> some.db.find(id, Ø));
+  }
+}
+```
+
+Better, but... Gaaahh! This is really just a proxy to `db.find`. Lets just Promisify it...
+```javascript
+var ƒ = require('effd');
+modules.exports = {
+  find: ƒ.ƒ(some.db.find)
+}
+```
+Oops... Doing it like that screws up its scope. We need to pass in the `db` context and then function name to fix it:
+```javascript
+var ƒ = require('effd');
+modules.exports = {
+  find: ƒ.ƒ(some.db, 'find')
+}
+```
+👍
+
+
 
 
 license
