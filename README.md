@@ -25,7 +25,7 @@ fs.readFile('./package.json')
 
 ## API
 
-#### ƒ(function)
+### ƒ(function)
 Creates a promise. Similar to `new Promise((resolve,reject)=>{})`
 
 The callback `function` will be passed 1 argument... `Ø`
@@ -46,15 +46,15 @@ Aliases to `reject` the promise.
 ```
 
 
-#### ƒ(value|Error)
+### ƒ(value|Error)
 Returns a rejected `Promise` if it is an instance of `Error`, otherwise a resolved `Promise`.
 
 Similar to doing `Promise.resolve(value)` or `Promise.reject(Error)`.
 
-#### ƒ(property, modifier)
+### ƒ(property, modifier)
 Shortcut for [ƒ.filter](#ƒ.filter).
 
-#### ƒ.[then](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) & ƒ.[catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch)
+### ƒ.[then](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) & ƒ.[catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch)
 A getter that returns a resolved Promise.
 
 `ƒ.catch` also returns a **resolved** Promise- therefor its callback will never get called. Its only purpose is to provide a consistent interface.
@@ -64,10 +64,10 @@ promise.catch(()=>'never called').then(()=>'but this is!').then(console.log);
 promise.then(()=>'eureka!',()=>'never called').then(console.log);
 ```
 
-#### ƒ.[resolve](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve) = ƒ.done = ƒ.accept = ƒ.ok = ƒ.noop = ƒ.echo
+### ƒ.[resolve](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve) = ƒ.done = ƒ.accept = ƒ.ok = ƒ.noop = ƒ.echo
 Aliases for `Promise.resolve()`. Use whichever _reads_ the best to you!
 
-#### ƒ.[reject](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject) = ƒ.error = ƒ.fail = ƒ.no
+### ƒ.[reject](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject) = ƒ.error = ƒ.fail = ƒ.no
 Aliases for `Promise.reject()`. Use whichever _reads_ the best to you!
 
 **ƒ.error** is special! It will create an instance of an Error if it isn't given one.
@@ -76,21 +76,21 @@ Aliases for `Promise.reject()`. Use whichever _reads_ the best to you!
 ```
 
 <a id="ƒ.race"></a>
-#### ƒ.[race(Array)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
+### ƒ.[race(Array)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
 Alias of [Promise.race](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race).
 
 <a id="ƒ.all"></a>
-#### ƒ.[all(Array)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
+### ƒ.[all(Array)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
 Alias of [Promise.all](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all).
 
-#### ƒ.all(...args)
+### ƒ.all(...args)
 Converts the `arguments` to an array and then uses [Promise.all(Array)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
 
-#### ƒ.all(Object)
+### ƒ.all(Object)
 Passes the values of the `Object` to  [Promise.all(Array)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) then maps the results to an `Object` matching the keys of the original `Object`.
 
 <a id="ƒ.filter"></a>
-#### ƒ.filter(property, modifier)
+### ƒ.filter(property, modifier)
 Creates a `then` filter (a function that can be passed to a `.then()` function) that will modify a property of the
 object it is given. After modifying the source object, it will return it to the `.then()` function. If the modifier
 returns a thenable, it will return that promise to `.then()`.
@@ -112,7 +112,7 @@ var save = (user)=>
 ```
 
 
-#### ƒ.passthrough(function) / ƒ.passthrough(context, name)
+### ƒ.passthrough(function) / ƒ.passthrough(context, name)
 Turns a function that isn't async into a resolved promise. Since [lambdas](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) allow us to drop the `{}`s and `return` statement if everything is chained, you can use this to help simplify your code.
 
 ```javascript
