@@ -55,15 +55,29 @@ Similar to doing `Promise.resolve(value)` or `Promise.reject(Error)`.
 Shortcut for [ƒ.filter](#ƒ.filter).
 
 <a id='ƒ.promisify'></a>
-### ƒ.promisify(fn)<br>ƒ.promisify(context, name)
+### ƒ.promisify(fn)<br>ƒ.promisify(context)<br>ƒ.promisify(context, name)<br>ƒ.promisify(context, names)<br>ƒ.promisify(context, ...names)
 Turns an [error first callback style](http://thenodeway.io/posts/understanding-error-first-callbacks) function into a thenable.
 
 `ƒ.promisify(fn)` can only be used if the function does not need it's parent's context, otherwise you will need to 
 pass the parent and the function's name:
 
 ```javascript
+var users_collection = require('./mongo/users_collection')
 ƒ.promisify(users_collection, 'find')({ name: 'Node' })
 .then(console.log)
+
+var fs = ƒ.promisify(require('fs'), 'stat', 'readFile', 'mkdir');
+fs.stat('package.json')
+.then(console.log);
+
+//or you can just promisify ALL functions...
+// (even ones that don't make sense!)
+var fs = ƒ.promisify(require('fs'));
+fs.readFile('package.json')
+.then(String);
+.then(console.log);
+
+
 ```
 
 
