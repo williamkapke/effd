@@ -54,6 +54,19 @@ Similar to doing `Promise.resolve(value)` or `Promise.reject(Error)`.
 ### ƒ(property, modifier)
 Shortcut for [ƒ.filter](#ƒ.filter).
 
+<a id='ƒ.promisify'></a>
+### ƒ.promisify(fn)<br>ƒ.promisify(context, name)
+Turns an [error first callback style](http://thenodeway.io/posts/understanding-error-first-callbacks) function into a thenable.
+
+`ƒ.promisify(fn)` can only be used if the function does not need it's parent's context, otherwise you will need to 
+pass the parent and the function's name:
+
+```javascript
+ƒ.promisify(users_collection, 'find')({ name: 'Node' })
+.then(console.log)
+```
+
+
 ### ƒ.[then](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) & ƒ.[catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch)
 A getter that returns a resolved Promise.
 
